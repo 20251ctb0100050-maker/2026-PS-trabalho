@@ -1,15 +1,18 @@
+
 public class Livro {
 
     private int id;
     private String titulo;
     private String autor;
     private int ano;
+    private String capa;
 
     public Livro(int id, String titulo, String autor, int ano) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.ano = ano;
+        this.capa = null;
     }
 
     public int getId() {
@@ -42,5 +45,13 @@ public class Livro {
 
     public void setAno(int ano) {
         this.ano = ano;
+    }
+
+    public String getCapa() {
+        return capa;
+    }
+
+    public void setCapa(String capa) {
+        this.capa = capa;
     }
 }
