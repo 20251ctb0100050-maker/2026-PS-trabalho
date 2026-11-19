@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -82,20 +81,12 @@ public class TelaCadastroLivro extends JFrame {
 
     private void salvarLivro() {
 
-        String nome = titulo.getText().trim();
-        String escritor = autor.getText().trim();
-
-        if (nome.isEmpty() || escritor.isEmpty()
-                || ano.getText().trim().isEmpty()) {
-
-            JOptionPane.showMessageDialog(
-                this, "Preencha todos os campos."
-            );
-            return;
-        }
-
         try {
-            int anoPublicacao = Integer.parseInt(ano.getText());
+            String nome = titulo.getText().trim();
+            String escritor = autor.getText().trim();
+            int anoPublicacao = Integer.parseInt(ano.getText().trim());
+
+            ValidadorLivro.validar(nome, escritor, anoPublicacao);
 
             boolean sucesso = dao.adicionarLivro(
                 nome, escritor, anoPublicacao
@@ -118,7 +109,17 @@ public class TelaCadastroLivro extends JFrame {
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(
-                this, "Informe um ano válido."
+                this, "O ano deve ser um número inteiro."
+            );
+
+        } catch (LivroInvalidoException e) {
+            JOptionPane.showMessageDialog(
+                this, e.getMessage()
+            );
+
+        } catch (PersistenciaException e) {
+            JOptionPane.showMessageDialog(
+                this, "Não foi possível salvar o livro."
             );
         }
     }

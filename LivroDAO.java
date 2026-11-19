@@ -26,8 +26,9 @@ public class LivroDAO {
             return comando.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("Erro ao adicionar: " + e.getMessage());
-            return false;
+            throw new PersistenciaException(
+                "Não foi possível adicionar o livro.", e
+            );
         }
     }
 
@@ -50,8 +51,9 @@ public class LivroDAO {
             return comando.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar: " + e.getMessage());
-            return false;
+            throw new PersistenciaException(
+                "Não foi possível atualizar o livro.", e
+            );
         }
     }
 
@@ -67,8 +69,9 @@ public class LivroDAO {
             return comando.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println("Erro ao excluir: " + e.getMessage());
-            return false;
+            throw new PersistenciaException(
+                "Não foi possível excluir o livro.", e
+            );
         }
     }
 
@@ -99,7 +102,9 @@ public class LivroDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao listar livros: " + e.getMessage());
+            throw new PersistenciaException(
+                "Não foi possível consultar os livros.", e
+            );
         }
 
         return livros;
@@ -134,7 +139,9 @@ public class LivroDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar livro: " + e.getMessage());
+            throw new PersistenciaException(
+                "Não foi possível buscar o livro.", e
+            );
         }
 
         return null;
@@ -174,7 +181,9 @@ public class LivroDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar livros: " + e.getMessage());
+            throw new PersistenciaException(
+                "Não foi possível buscar livros pelo título.", e
+            );
         }
 
         return livros;
@@ -195,10 +204,9 @@ public class LivroDAO {
             return comando.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.out.println(
-                "Erro ao atualizar capa: " + e.getMessage()
+            throw new PersistenciaException(
+                "Não foi possível atualizar a capa.", e
             );
-            return false;
         }
     }
 }

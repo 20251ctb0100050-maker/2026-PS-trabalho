@@ -227,15 +227,32 @@ public class TelaLivros extends JFrame {
 
     private void carregarLivros() {
 
-        modelo.setRowCount(0);
+        try {
 
-        List<Livro> livros = dao.listarLivros();
+            List<Livro> livros = dao.listarLivros();
 
-        for (Livro livro : livros) {
-            adicionarLinha(livro);
+            modelo.setRowCount(0);
+
+            for (Livro livro : livros) {
+                adicionarLinha(livro);
+            }
+
+            status.setText("Livros encontrados: " + livros.size());
+
+        } catch (PersistenciaException e) {
+
+            status.setText("Erro ao consultar o banco.");
+
+            System.err.println(e.getMessage());
+            e.printStackTrace();
+
+            JOptionPane.showMessageDialog(
+                this,
+                "Não foi possível carregar os livros. Verifique a conexão com o banco de dados.",
+                "Erro de Conexão",
+                JOptionPane.ERROR_MESSAGE
+            );
         }
-
-        status.setText("Livros apresentados: " + livros.size());
     }
 
     private void adicionarLinha(Livro livro) {
@@ -256,41 +273,68 @@ public class TelaLivros extends JFrame {
         int id;
 
         try {
+
             id = Integer.parseInt(texto);
 
             if (id <= 0) {
-                throw new NumberFormatException();
+                throw new IllegalArgumentException(
+                    "O ID deve ser positivo."
+                );
             }
 
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException e) {
 
             JOptionPane.showMessageDialog(
                 this,
-                "Informe um ID inteiro positivo.",
-                "Entrada inválida",
-                JOptionPane.WARNING_MESSAGE
+                "Informe um número inteiro válido."
+            );
+
+            return;
+
+        } catch (IllegalArgumentException e) {
+
+            JOptionPane.showMessageDialog(
+                this,
+                e.getMessage()
             );
 
             return;
         }
 
-        Livro livro = dao.buscarLivroPorId(id);
+        try {
 
-        modelo.setRowCount(0);
+            Livro livro = dao.buscarLivroPorId(id);
 
-        if (livro == null) {
+            modelo.setRowCount(0);
 
-            status.setText("Nenhum livro encontrado para o ID " + id);
+            if (livro == null) {
+
+                status.setText("Nenhum livro encontrado para o ID " + id);
+
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Livro não encontrado."
+                );
+
+            } else {
+
+                adicionarLinha(livro);
+                status.setText("Livro encontrado: " + livro.getTitulo());
+            }
+
+        } catch (PersistenciaException e) {
+
+            status.setText("Erro ao consultar o banco.");
+
+            System.err.println(e.getMessage());
+            e.printStackTrace();
 
             JOptionPane.showMessageDialog(
                 this,
-                "Livro não encontrado."
+                "Não foi possível buscar o livro. Verifique a conexão com o banco de dados.",
+                "Erro de Conexão",
+                JOptionPane.ERROR_MESSAGE
             );
-
-        } else {
-
-            adicionarLinha(livro);
-            status.setText("Livro encontrado: " + livro.getTitulo());
         }
     }
 
@@ -310,21 +354,38 @@ public class TelaLivros extends JFrame {
             return;
         }
 
-        List<Livro> livros = dao.buscarLivrosPorTitulo(titulo);
+        try {
 
-        modelo.setRowCount(0);
+            List<Livro> livros = dao.buscarLivrosPorTitulo(titulo);
 
-        for (Livro livro : livros) {
-            adicionarLinha(livro);
-        }
+            modelo.setRowCount(0);
 
-        status.setText("Livros encontrados: " + livros.size());
+            for (Livro livro : livros) {
+                adicionarLinha(livro);
+            }
 
-        if (livros.isEmpty()) {
+            status.setText("Livros encontrados: " + livros.size());
+
+            if (livros.isEmpty()) {
+
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Nenhum livro encontrado."
+                );
+            }
+
+        } catch (PersistenciaException e) {
+
+            status.setText("Erro ao consultar o banco.");
+
+            System.err.println(e.getMessage());
+            e.printStackTrace();
 
             JOptionPane.showMessageDialog(
                 this,
-                "Nenhum livro encontrado."
+                "Não foi possível buscar os livros. Verifique a conexão com o banco de dados.",
+                "Erro de Conexão",
+                JOptionPane.ERROR_MESSAGE
             );
         }
     }
