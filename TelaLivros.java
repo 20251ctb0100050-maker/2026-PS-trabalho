@@ -132,6 +132,7 @@ public class TelaLivros extends JFrame {
         JButton mostrarTodos = new JButton("Mostrar todos");
         JButton selecionarCapa = new JButton("Selecionar capa");
         JButton limpar = new JButton("Limpar");
+        JButton novoLivro = new JButton("Novo livro");
 
         personalizarBotao(buscarId);
         personalizarBotao(buscarTitulo);
@@ -139,6 +140,7 @@ public class TelaLivros extends JFrame {
         personalizarBotao(mostrarTodos);
         personalizarBotao(selecionarCapa);
         personalizarBotao(limpar);
+        personalizarBotao(novoLivro);
 
         controles.add(new JLabel("ID:"));
         controles.add(campoId);
@@ -175,6 +177,7 @@ public class TelaLivros extends JFrame {
         mostrarTodos.addActionListener(e -> carregarLivros());
 
         selecionarCapa.addActionListener(e -> selecionarCapa());
+        novoLivro.addActionListener(e -> novoLivro());
 
         limpar.addActionListener(e -> {
             campoId.setText("");
@@ -471,6 +474,10 @@ public class TelaLivros extends JFrame {
             );
         }
     }
+    private void novoLivro() {
+    new TelaCadastroLivro(this).setVisible(true);
+    carregarLivros();
+}
 
     public static void main(String[] args) {
 

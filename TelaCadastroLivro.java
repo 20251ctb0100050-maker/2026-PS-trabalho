@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class TelaCadastroLivro extends JFrame {
+public class TelaCadastroLivro extends JDialog {
 
     private final JTextField titulo = new JTextField(20);
     private final JTextField autor = new JTextField(20);
@@ -9,12 +9,12 @@ public class TelaCadastroLivro extends JFrame {
 
     private final LivroDAO dao = new LivroDAO();
 
-    public TelaCadastroLivro() {
+    public TelaCadastroLivro(JFrame pai) {
+        super(pai, "BiblioTech - Cadastro de Livros", true);
 
-        setTitle("BiblioTech - Cadastro de Livros");
         setSize(500, 380);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(pai);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         JPanel principal = new JPanel(new BorderLayout(15, 15));
         principal.setBackground(new Color(241, 245, 249));
@@ -94,13 +94,9 @@ public class TelaCadastroLivro extends JFrame {
 
             if (sucesso) {
                 JOptionPane.showMessageDialog(
-                    this, "Livro cadastrado com sucesso!"
+                    this, "Livro cadastrado."
                 );
-
-                titulo.setText("");
-                autor.setText("");
-                ano.setText("");
-
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(
                     this, "Não foi possível cadastrar o livro."
@@ -126,7 +122,7 @@ public class TelaCadastroLivro extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new TelaCadastroLivro().setVisible(true);
+            new TelaCadastroLivro(null).setVisible(true);
         });
     }
 }

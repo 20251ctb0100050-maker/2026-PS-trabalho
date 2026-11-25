@@ -60,3 +60,10 @@ O exemplo cresce a cada aula no [repositório do modelo](https://github.com/Prof
 ---
 
 **Profe. Berssa** | Dr. João Henrique Berssanette
+## Configuração do Banco de Dados
+
+Para criar ou atualizar a estrutura do banco de dados como administrador:
+
+```bash
+sudo service mariadb start
+sudo mariadb < banco.sql

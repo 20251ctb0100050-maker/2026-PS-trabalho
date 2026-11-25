@@ -1,4 +1,3 @@
-
 public class Livro {
 
     private int id;
@@ -6,6 +5,15 @@ public class Livro {
     private String autor;
     private int ano;
     private String capa;
+    private boolean disponivel;
+
+    public Livro(String titulo, String autor, int ano) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.ano = ano;
+        this.capa = null;
+        this.disponivel = true;
+    }
 
     public Livro(int id, String titulo, String autor, int ano) {
         this.id = id;
@@ -13,6 +21,7 @@ public class Livro {
         this.autor = autor;
         this.ano = ano;
         this.capa = null;
+        this.disponivel = true;
     }
 
     public int getId() {
@@ -53,5 +62,17 @@ public class Livro {
 
     public void setCapa(String capa) {
         this.capa = capa;
+    }
+
+    public boolean estaDisponivel() {
+        return disponivel;
+    }
+
+    public void emprestar() {
+        this.disponivel = false;
+    }
+
+    public void devolver() {
+        this.disponivel = true;
     }
 }
